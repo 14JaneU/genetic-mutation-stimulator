@@ -1,6 +1,8 @@
 from classification_utils import classify_mutation
 from metadata_utils import mutation_metadata
 from aa_change_utils import detect_amino_acid_changes
+from visualisation_utils import highlight_dna_changes
+from visualisation_utils import mutation_pointer
 
 from dna_utils import validate_dna, clean_sequence
 from mutation_functions import (
@@ -57,11 +59,14 @@ def main():
     print("\nMutation summary:")
     print(mutation_description)
 
-    print("\nOriginal DNA:")
-    print(dna_sequence)
+    vis_original, vis_mutated = highlight_dna_changes(dna_sequence, mutated)
 
-    print("\nMutated DNA:")
-    print(mutated)
+    print("\nDNA Visualisation:")
+    
+    print("Original:", vis_original)
+    print("Mutated :", vis_mutated)
+    print("          ", mutation_pointer(dna_sequence, mutated))
+
 
     print("\nOriginal protein:")
     print(original_protein)
@@ -77,6 +82,7 @@ def main():
     print("\nMutation metadata:")
     print(f"Mutation size: {size}")
     print(f"Reading frame disrupted: {frame}")
+
 
     amino_acid_changes = detect_amino_acid_changes(dna_sequence, mutated)
     if amino_acid_changes:
