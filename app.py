@@ -1,3 +1,6 @@
+from classification_utils import classify_mutation
+from metadata_utils import mutation_metadata
+
 from dna_utils import validate_dna, clean_sequence
 from mutation_functions import (
     substitution_mutation,
@@ -5,7 +8,6 @@ from mutation_functions import (
     deletion_mutation
 )
 from protein_utils import translate_dna, compare_proteins
-
 
 def main():
     print("Genetic Mutation Simulator")
@@ -44,6 +46,13 @@ def main():
         return
 
     mutated_protein = translate_dna(mutated)
+    mutation_type = classify_mutation(
+        dna_sequence,
+        mutated,
+        original_protein,
+        mutated_protein
+    )
+
 
     print("\nMutation summary:")
     print(mutation_description)
@@ -59,6 +68,16 @@ def main():
 
     print("\nMutated protein:")
     print(mutated_protein)
+
+    print("\nMutation classification:")
+    print(mutation_type)
+
+    size, frame = mutation_metadata(dna_sequence, mutated)
+
+    print("\nMutation metadata:")
+    print(f"Mutation size: {size}")
+    print(f"Reading frame disrupted: {frame}")
+
 
     if compare_proteins(original_protein, mutated_protein):
         print("\n⚠️ Protein sequence changed due to mutation.")
