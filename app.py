@@ -1,5 +1,6 @@
 from classification_utils import classify_mutation
 from metadata_utils import mutation_metadata
+from aa_change_utils import detect_amino_acid_changes
 
 from dna_utils import validate_dna, clean_sequence
 from mutation_functions import (
@@ -53,7 +54,6 @@ def main():
         mutated_protein
     )
 
-
     print("\nMutation summary:")
     print(mutation_description)
 
@@ -78,7 +78,18 @@ def main():
     print(f"Mutation size: {size}")
     print(f"Reading frame disrupted: {frame}")
 
+    amino_acid_changes = detect_amino_acid_changes(dna_sequence, mutated)
+    if amino_acid_changes:
+        print("\nAmino acid changes:")
 
+        for change in amino_acid_changes:
+            print(
+                f"Codon {change['codon_position']}: "
+                f"{change['original_codon']} → ({change['mutated_codon']}) | "
+                f"{change['original_amino_acid']} → {change['mutated_amino_acid']}")
+    else:
+        print("\nNo amino acid changes detected.")
+   
     if compare_proteins(original_protein, mutated_protein):
         print("\n⚠️ Protein sequence changed due to mutation.")
     else:
