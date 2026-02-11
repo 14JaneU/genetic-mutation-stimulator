@@ -20,4 +20,4 @@ This project simulates common genetic mutation types (substitution, insertion, d
 - Streamlit
 
 ## Status
-In development (Day 1: DNA validation and project setup completed)
+In development 

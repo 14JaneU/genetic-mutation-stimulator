@@ -3,6 +3,7 @@ from metadata_utils import mutation_metadata
 from aa_change_utils import detect_amino_acid_changes
 from visualisation_utils import highlight_dna_changes
 from visualisation_utils import mutation_pointer
+from statistics_utils import mutation_statistics
 
 from mutation_functions import (
     substitution_mutation,
@@ -64,6 +65,9 @@ def main():
             mutation_rate
         )
     
+        if mutation_rate > 0.1:
+            print("⚠️ High mutation rate — biological realism reduced.")
+
         if events:
             mutation_description = (
                 f"{len(events)} mutation(s) occurred based on probability"
@@ -100,7 +104,7 @@ def main():
     print("\nMutated protein:")
     print(mutated_protein)
 
-    print("\nMutation classification:")
+    print("\nOverall mutation effect:")
     print(mutation_type)
 
     size, frame = mutation_metadata(dna_sequence, mutated)
@@ -109,11 +113,19 @@ def main():
     print(f"Mutation size: {size}")
     print(f"Reading frame disrupted: {frame}")
 
-    if choice == "4" and events:
-        print("\nMutation Events:")
-        for pos, original, new in events:
-            print(f"Position {pos+1}: {original} → {new}")
+    if choice == "4":
+        if events:
+            print("\nMutation Events:")
+            for pos, original, new in events:
+                print(f"Position {pos+1}: {original} → {new}")
 
+        stats = mutation_statistics(events)
+
+        print("\nMutation Statistics:")
+        print(f"Total mutations: {stats['total_mutations']}")
+
+    else:
+        print("\nNo mutations occurred.")
 
 
     amino_acid_changes = detect_amino_acid_changes(dna_sequence, mutated)
