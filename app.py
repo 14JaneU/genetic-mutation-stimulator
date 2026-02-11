@@ -4,6 +4,7 @@ from aa_change_utils import detect_amino_acid_changes
 from visualisation_utils import highlight_dna_changes
 from visualisation_utils import mutation_pointer
 from statistics_utils import mutation_statistics
+from graphics_utils import plot_mutation_types
 
 from mutation_functions import (
     substitution_mutation,
@@ -60,9 +61,13 @@ def main():
         mutation_rate = float(
             input("Enter mutation rate (e.g., 0.01 for 1% chance per base): ")
         )
+        transition_bias = float(
+        input("Enter transition bias (0–1, recommended 0.6–0.8): ")
+     )
         mutated, events = apply_mutation_probability (
             dna_sequence,
-            mutation_rate
+            mutation_rate,
+            transition_bias
         )
     
         if mutation_rate > 0.1:
@@ -113,19 +118,19 @@ def main():
     print(f"Mutation size: {size}")
     print(f"Reading frame disrupted: {frame}")
 
+
     if choice == "4":
         if events:
             print("\nMutation Events:")
             for pos, original, new in events:
                 print(f"Position {pos+1}: {original} → {new}")
 
-        stats = mutation_statistics(events)
+            stats = mutation_statistics(events)
 
-        print("\nMutation Statistics:")
-        print(f"Total mutations: {stats['total_mutations']}")
+            print("\nMutation Statistics:")
+            print(f"Total mutations: {stats['total_mutations']}")
+            plot_mutation_types(events)
 
-    else:
-        print("\nNo mutations occurred.")
 
 
     amino_acid_changes = detect_amino_acid_changes(dna_sequence, mutated)
