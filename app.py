@@ -4,6 +4,13 @@ from aa_change_utils import detect_amino_acid_changes
 from visualisation_utils import highlight_dna_changes
 from visualisation_utils import mutation_pointer
 
+from mutation_functions import (
+    substitution_mutation,
+    insertion_mutation,
+    deletion_mutation
+)
+from probability_utils import apply_mutation_probability
+
 from dna_utils import validate_dna, clean_sequence
 from mutation_functions import (
     substitution_mutation,
@@ -22,15 +29,19 @@ def main():
     if not validate_dna(dna_sequence):
         print("Invalid DNA sequence. Please use only A, T, C, G.")
         return
-
+  
     original_protein = translate_dna(dna_sequence)
+
 
     print("\nChoose mutation type:")
     print("1 - Substitution")
     print("2 - Insertion")
     print("3 - Deletion")
+    print("4 - Probability-based random mutation")
 
-    choice = input("Enter choice (1/2/3): ")
+
+
+    choice = input("Enter choice (1/2/3/4): ")
 
     if choice == "1":
         mutated, pos, original, new = substitution_mutation(dna_sequence)
@@ -44,9 +55,27 @@ def main():
         mutated, pos, deleted = deletion_mutation(dna_sequence)
         mutation_description = f"Deletion at position {pos}: removed {deleted}"
 
+    elif choice == "4":
+        mutation_rate = float(
+            input("Enter mutation rate (e.g., 0.01 for 1% chance per base): ")
+        )
+        mutated, events = apply_mutation_probability (
+            dna_sequence,
+            mutation_rate
+        )
+    
+        if events:
+            mutation_description = (
+                f"{len(events)} mutation(s) occurred based on probability"
+            )
+        
+        else: 
+            mutation_description = "No mutations occurred based on probability"
+    
     else:
         print("Invalid choice.")
         return
+
 
     mutated_protein = translate_dna(mutated)
     mutation_type = classify_mutation(
@@ -55,9 +84,6 @@ def main():
         original_protein,
         mutated_protein
     )
-
-    print("\nMutation summary:")
-    print(mutation_description)
 
     vis_original, vis_mutated = highlight_dna_changes(dna_sequence, mutated)
 
@@ -82,6 +108,12 @@ def main():
     print("\nMutation metadata:")
     print(f"Mutation size: {size}")
     print(f"Reading frame disrupted: {frame}")
+
+    if choice == "4" and events:
+        print("\nMutation Events:")
+        for pos, original, new in events:
+            print(f"Position {pos+1}: {original} → {new}")
+
 
 
     amino_acid_changes = detect_amino_acid_changes(dna_sequence, mutated)
