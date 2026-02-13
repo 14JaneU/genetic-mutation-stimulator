@@ -81,11 +81,6 @@ Based on molecular genetic literature, this model's default ratio approximates 2
 
 1. Wang J, Raskin L, Samuels DC, Shyr Y, Guo Y. Genome measures used for quality control are dependent on gene function and ancestry. Bioinformatics. 2015 Feb 1;31(3):318-23. doi: 10.1093/bioinformatics/btu668. Epub 2014 Oct 8. PMID: 25297068; PMCID: PMC4308666.
 
-## Example Output
-
-GUI version:
-<img width="940" height="485" alt="image" src="https://github.com/user-attachments/assets/9c0eba08-fef3-4fd9-829d-04019a9fd712" />
-
 ## Project Structure 
 
 ```
@@ -100,13 +95,7 @@ statistics_utils.py
 graphics_util.py
 visualisation_utils.py
 ```
-## Future Improvements
 
-```
-- Real genome dataset integration
-- Literature-based mutation rate modelling
-- Advanced mutation heatmaps
-```
 ## Code Structure 
 
 ```
@@ -127,4 +116,21 @@ genetic-mutation-simulator
 ├── visualisation_utils.py
 ├── probability_utils.py
 
+```
+## Example Outputs 
 
+**CLI Version**
+
+<img width="275" height="454" alt="image" src="https://github.com/user-attachments/assets/ecd2a999-31b6-4214-b7f6-30a654c32654" />
+<img width="498" height="359" alt="image" src="https://github.com/user-attachments/assets/16d49e23-f101-4b73-90a2-503d58fbf8bc" />
+<img width="385" height="288" alt="image" src="https://github.com/user-attachments/assets/93589843-f8aa-42bb-ab3f-018d64bf253b" />
+
+**GUI Version**
+
+<img width="928" height="469" alt="image" src="https://github.com/user-attachments/assets/0cc26e52-551c-4555-b2b3-77738079b329" />
+<img width="920" height="218" alt="image" src="https://github.com/user-attachments/assets/51056f6c-3e33-4696-8bec-da6e5b4b7190" />
+
+## Future Improvements 
+- Real genome dataset integration
+- Advanced mutation heatmaps
+- Add all of the CLI version features to GUI version
