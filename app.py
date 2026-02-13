@@ -5,6 +5,8 @@ from visualisation_utils import highlight_dna_changes
 from visualisation_utils import mutation_pointer
 from statistics_utils import mutation_statistics
 from graphics_utils import plot_mutation_types
+from fasta_utils import read_fasta
+
 
 from mutation_functions import (
     substitution_mutation,
@@ -25,12 +27,25 @@ def main():
     print("Genetic Mutation Simulator")
     print("--------------------------")
 
-    dna_sequence = input("Enter a DNA sequence: ")
+    print("Choose input method:")
+    print("1 - Manual DNA input")
+    print("2 - FASTA file input")
+
+    input_choice = input("Enter choice (1/2): ")
+
+    if input_choice == "1":
+        dna_sequence = input("Enter DNA sequence: ")
+
+    elif input_choice == "2":
+        file_path = input("Enter FASTA file path: ")
+        dna_sequence = read_fasta(file_path)
+
+    else:
+        print("Invalid input method. Please use only A, T, C, G.")
+        return
+
     dna_sequence = clean_sequence(dna_sequence)
 
-    if not validate_dna(dna_sequence):
-        print("Invalid DNA sequence. Please use only A, T, C, G.")
-        return
   
     original_protein = translate_dna(dna_sequence)
 
@@ -61,13 +76,10 @@ def main():
         mutation_rate = float(
             input("Enter mutation rate (e.g., 0.01 for 1% chance per base): ")
         )
-        transition_bias = float(
-        input("Enter transition bias (0–1, recommended 0.6–0.8): ")
-     )
-        mutated, events = apply_mutation_probability (
+       
+        mutated, events = apply_mutation_probability(
             dna_sequence,
-            mutation_rate,
-            transition_bias
+            mutation_rate
         )
     
         if mutation_rate > 0.1:
