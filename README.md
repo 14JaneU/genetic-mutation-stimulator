@@ -47,21 +47,39 @@ Run GUI version:
 python -m streamlit run streamlit_app.py
 ```
 ## Biological Realism of Model
-This simulator implements probabilistic mutation modelling informed by empirical molecular genetics literature.
 
-Key assumptions:
+**Key assumptions**:
 
-- Transition mutations occur more frequently than transversions with a ratio often greater than 0.5 (~2:1).
-- Mutation probability can be adjusted to reflect organism-specific mutation rates.
+- Transition mutations occur more frequently than transversions.
+- Mutation probability can be adjusted to reflect organism-specific mutation rates. 
 - Mutation events are modelled per nucleotide position using stochastic simulation.
 
-Supporting Literature:
+**Supporting Literature**:
 
 - Wang J, Raskin L, Samuels DC, Shyr Y, Guo Y. Genome measures used for quality control are dependent on gene function and ancestry. Bioinformatics. 2015 Feb 1;31 (3):318-23. doi: 10.1093/bioinformatics/btu668. Epub 2014 Oct 8. P
 - Wu K, Qin D, Qian Y, Liu H. A new era of mutation rate analyses: Concepts and methods. Zool Res. 2024 Jul 18;45(4):767-780. doi: 10.24272/j.issn.2095-8137.2024.058. PMID: 38894520; PMCID: PMC11298668.
 - Drake JW, Charlesworth B, Charlesworth D, Crow JF. Rates of spontaneous mutation. Genetics. 1998 Apr;148(4):1667-86. doi: 10.1093/genetics/148.4.1667. PMID: 9560386; PMCID: PMC1460098.
 - Nishant KT, Singh ND, Alani E. Genomic mutation rates: what high-throughput methods can tell us. Bioessays. 2009 Sep;31(9):912-20. doi: 10.1002/bies.200900017. PMID: 19644920; PMCID: PMC2952423.
 - Xiong X, Boyett JM, Webster RG, Stech J. A stochastic model for estimation of mutation rates in multiple-replication proliferation processes. J Math Biol. 2009 Aug;59(2):175-91. doi: 10.1007/s00285-008-0225-8. Epub 2008 Oct 10. PMID: 18846374; PMCID: PMC2692649.
+
+## Biological Mutation Weighting 
+**Background**
+
+Adenine (A) and guanine (G) are two-ring purine-based nucleotides and cytosine (C) and thymine (T) are one-ring pyrimidine-derived nucleotides. [1]
+
+In substitution mutations, transitions are defined as the interchange of the purine-based **A↔G** or pryimidine-based **C↔T**. Transversions are defined as the interchange between two-ring purine nucleobases and one-ring pyrimidine bases. The possible transversions are **A↔C**, **A↔T**, **C↔G**, **G↔T**. [1]
+
+In theory, if substitution mutations occur randomly, then the Ti/Tv ratio averaged over a large enough number of substations should be 0.5, because there are two possible transitions and four possible transversions. [1] However, transitions are more common because they involve substituting a single-ring structure for another, or double-ring for double-ring, which is less physically disruptive to the DNA helix than the pyrimidine-purine swap of transversions.
+
+Thus, in real sequencing data, the transition and transversion ratio is often greater than 0.5. [1]
+
+**Default Ratio**
+
+Based on molecular genetic literature, this model's default ratio approximates 2:1 transition/transversion bias. 
+
+**References**
+
+1. Wang J, Raskin L, Samuels DC, Shyr Y, Guo Y. Genome measures used for quality control are dependent on gene function and ancestry. Bioinformatics. 2015 Feb 1;31(3):318-23. doi: 10.1093/bioinformatics/btu668. Epub 2014 Oct 8. PMID: 25297068; PMCID: PMC4308666.
 
 ## Example Output
 
